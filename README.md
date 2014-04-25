@@ -3,6 +3,39 @@ grails-todo-angularjs
 
 grails todo example with angularjs
 
+#Backend
+##grails create-domain-class Todo 
+```
+package grails.todo.angularjs
+import grails.rest.Resource
+
+@Resource(uri='/todos')
+class Todo {
+
+	String title
+    Boolean completed = false
+
+    static constraints = {
+    }
+}
+```
+
+##update BootStrap.groovy
+```
+import grails.todo.angularjs.Todo
+class BootStrap {
+
+    def init = { servletContext ->
+    	new Todo(title:"Todo1").save()
+        new Todo(title:"Todo2").save()
+    }
+    def destroy = {
+    }
+}
+```
+
+
+#FrontEnd
 ##using bower for front-end package management
 ```
 cd grails-todo-angularjs/web-app
