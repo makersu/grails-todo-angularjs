@@ -18,7 +18,6 @@ cp /todomvc/architecture-examples/angularjs/js/app.js .
 cp /todomvc/architecture-examples/angularjs/js/controllers .
 cp /todomvc/architecture-examples/angularjs/js/directives .
 cp /todomvc/architecture-examples/angularjs/js/services .
-
 ```
 
 ##create index.gsp
