@@ -34,7 +34,6 @@ class BootStrap {
 }
 ```
 
-
 #FrontEnd(Angularjs)
 ##using bower for front-end package management
 ```
@@ -63,10 +62,11 @@ cp ~/home/mark/git/todomvc/architecture-examples/angularjs/index.html index.gsp
 ##using $http for rest resource
 
 ###module setting
+```
 angular.module('todomvc')
 	.constant("baseUrl","/grails-todo-angularjs/todos/")
 	.controller('TodoCtrl', function TodoCtrl($scope, $routeParams, $filter, todoStorage, $http, baseUrl) {
-
+```
 ###addTodo
 ```
 $scope.addTodo = function () {
@@ -109,5 +109,4 @@ $scope.doneEditing = function (todo) {
 ```
 grails run-app
 Browse to http://localhost:8080/grails-todo-angularjs
-
 ```
