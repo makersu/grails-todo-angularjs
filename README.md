@@ -67,6 +67,12 @@ angular.module('todomvc')
 	.constant("baseUrl","/grails-todo-angularjs/todos/")
 	.controller('TodoCtrl', function TodoCtrl($scope, $routeParams, $filter, todoStorage, $http, baseUrl) {
 ```
+
+###listTodos
+```
+$scope.todos=[];
+$http.get(baseUrl).success(function(data){$scope.todos=data;});
+```
 ###addTodo
 ```
 $scope.addTodo = function () {
