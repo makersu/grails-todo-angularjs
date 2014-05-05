@@ -108,5 +108,5 @@ $scope.doneEditing = function (todo) {
 #test
 ```
 grails run-app
-Browse to http://localhost:8080/grails-todo-angularjs
+Browse to http://localhost:8080/grails-todo-angularjs and http://localhost:8080/grails-todo-angularjs/todos/
 ```
