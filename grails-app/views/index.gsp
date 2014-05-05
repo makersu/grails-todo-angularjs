@@ -14,7 +14,7 @@
 				<header id="header">
 					<h1>todos</h1>
 					<form id="todo-form" ng-submit="addTodo()">
-						<input id="new-todo" placeholder="What needs to be done?" ng-model="newTodo" autofocus>
+						<input id="new-todo" placeholder="What needs to be done?" ng-model="newTodo.title" autofocus>
 					</form>
 				</header>
 				<section id="main" ng-show="todos.length" ng-cloak>
