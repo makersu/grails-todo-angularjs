@@ -6,20 +6,23 @@
  * - exposes the model to the template and provides event handlers
  */
 angular.module('todomvc')
-	.controller('TodoCtrl', function TodoCtrl($scope, $routeParams, $filter, todoStorage) {
+	.constant("baseUrl","/grails-todo-angularjs/todos/")
+	.controller('TodoCtrl', function TodoCtrl($scope, $routeParams, $filter, todoStorage, $http, baseUrl) {
 		'use strict';
+		//var todos = $scope.todos = todoStorage.get();
 
-		var todos = $scope.todos = todoStorage.get();
+		$scope.todos=[];
+		$http.get(baseUrl).success(function(data){$scope.todos=data;});
 
 		$scope.newTodo = '';
 		$scope.editedTodo = null;
 
 		$scope.$watch('todos', function (newValue, oldValue) {
-			$scope.remainingCount = $filter('filter')(todos, { completed: false }).length;
-			$scope.completedCount = todos.length - $scope.remainingCount;
+			$scope.remainingCount = $filter('filter')($scope.todos, { completed: false }).length;
+			$scope.completedCount = $scope.todos.length - $scope.remainingCount;
 			$scope.allChecked = !$scope.remainingCount;
 			if (newValue !== oldValue) { // This prevents unneeded calls to the local storage
-				todoStorage.put(todos);
+				todoStorage.put($scope.todos);
 			}
 		}, true);
 
@@ -33,14 +36,20 @@ angular.module('todomvc')
 		});
 
 		$scope.addTodo = function () {
-			var newTodo = $scope.newTodo.trim();
-			if (!newTodo.length) {
+
+			var newTodoTitle = $scope.newTodo.title.trim();
+			if (!newTodoTitle.length) {
 				return;
 			}
 
-			todos.push({
-				title: newTodo,
-				completed: false
+			// $scope.todos.push({
+			// 	title: newTodo,
+			// 	completed: false
+			// });
+			
+			$http.post(baseUrl,$scope.newTodo)
+			.success(function(newTodo){
+				$scope.todos.push(newTodo);
 			});
 
 			$scope.newTodo = '';
@@ -55,30 +64,42 @@ angular.module('todomvc')
 		$scope.doneEditing = function (todo) {
 			$scope.editedTodo = null;
 			todo.title = todo.title.trim();
-
 			if (!todo.title) {
 				$scope.removeTodo(todo);
 			}
+
+			$http.put(baseUrl+todo.id,todo)
+			.success(function(modifiedTodo){
+				console.log("modifiedTodo="+modifiedTodo);
+			})
+
 		};
 
 		$scope.revertEditing = function (todo) {
-			todos[todos.indexOf(todo)] = $scope.originalTodo;
+			$scope.todos[$scope.todos.indexOf(todo)] = $scope.originalTodo;
 			$scope.doneEditing($scope.originalTodo);
 		};
 
 		$scope.removeTodo = function (todo) {
-			todos.splice(todos.indexOf(todo), 1);
+			//$scope.todos.splice($scope.todos.indexOf(todo), 1);
+
+			$http.delete(baseUrl+todo.id)
+			.success(function(){
+				$scope.todos.splice($scope.todos.indexOf(todo), 1);
+			});
 		};
 
 		$scope.clearCompletedTodos = function () {
-			$scope.todos = todos = todos.filter(function (val) {
+			$scope.todos = $scope.todos = $scope.todos.filter(function (val) {
+				
 				return !val.completed;
 			});
 		};
 
 		$scope.markAll = function (completed) {
-			todos.forEach(function (todo) {
+			$scope.todos.forEach(function (todo) {
 				todo.completed = !completed;
 			});
 		};
+
 	});
