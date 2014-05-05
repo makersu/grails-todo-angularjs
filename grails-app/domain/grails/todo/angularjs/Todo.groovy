@@ -1,7 +1,7 @@
 package grails.todo.angularjs
 import grails.rest.Resource
 
-@Resource(uri='/todos')
+@Resource(uri='/todos', formats=['json', 'xml'])
 class Todo {
 
 	String title
