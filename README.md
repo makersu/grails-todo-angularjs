@@ -60,5 +60,54 @@ cd grails-todo-angularjs/grails-app/views
 cp ~/home/mark/git/todomvc/architecture-examples/angularjs/index.html index.gsp
 ```
 
+##using $http for rest resource
 
+###module setting
+angular.module('todomvc')
+	.constant("baseUrl","/grails-todo-angularjs/todos/")
+	.controller('TodoCtrl', function TodoCtrl($scope, $routeParams, $filter, todoStorage, $http, baseUrl) {
 
+###addTodo
+```
+$scope.addTodo = function () {
+
+			...
+			
+			$http.post(baseUrl,$scope.newTodo)
+			.success(function(newTodo){
+				$scope.todos.push(newTodo);
+			});
+
+			$scope.newTodo = '';
+		};
+```
+###removeTodo
+```
+$scope.removeTodo = function (todo) {
+			...
+
+			$http.delete(baseUrl+todo.id)
+			.success(function(){
+				$scope.todos.splice($scope.todos.indexOf(todo), 1);
+			});
+		};
+```
+###doneEditing
+```
+$scope.doneEditing = function (todo) {
+			...
+
+			$http.put(baseUrl+todo.id,todo)
+			.success(function(modifiedTodo){
+				console.log("modifiedTodo="+modifiedTodo);
+			})
+
+		};
+```
+
+#test
+```
+grails run-app
+Browse to http://localhost:8080/grails-todo-angularjs
+
+```
