@@ -1,7 +1,7 @@
 grails-todo-angularjs
 =====================
 
-grails todo example with angularjs
+AngularJS todomvc example with Grails
 
 #Backend(Grails)
 ##grails create-domain-class Todo 
@@ -32,6 +32,11 @@ class BootStrap {
     def destroy = {
     }
 }
+```
+##test Backend
+```
+grails run-app
+Browse to http://localhost:8080/grails-todo-angularjs/todos/
 ```
 
 #FrontEnd(Angularjs)
@@ -111,8 +116,11 @@ $scope.doneEditing = function (todo) {
 		};
 ```
 
-#test
+##test FrontEnd
 ```
 grails run-app
 Browse to http://localhost:8080/grails-todo-angularjs and http://localhost:8080/grails-todo-angularjs/todos/
 ```
+
+#Other
+use ngResource and ngRoute
